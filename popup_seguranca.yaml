@@ -1,0 +1,25 @@
+# Popup Configuration
+
+template: 
+  - type: custom:popup-card
+    style:
+      width: 100vw
+      height: 90vh
+    columns: 3
+    items:
+      - type: camera-card
+        entity: camera.camera_1
+      - type: camera-card
+        entity: camera.camera_2
+      - type: camera-card
+        entity: camera.camera_3
+      - type: camera-card
+        entity: camera.camera_4
+      - type: camera-card
+        entity: camera.camera_5
+      - type: camera-card
+        entity: camera.camera_6
+      - type: camera-card
+        entity: camera.camera_7
+      - type: camera-card
+        entity: camera.camera_8
