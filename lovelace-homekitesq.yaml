@@ -284,49 +284,101 @@ views:
         columns: 2
         cards:
 
-          - type: custom:button-card
-            entity: light.ecodim_dimmer_downlights_entrance
-            name: Entrance
-            tap_action:
-              !include popup/entrance.yaml
-            template:
-              - room_group
-              - icon_entrance
-            variables:
-              light_entity: light.ecodim_dimmer_downlights_entrance
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: light.ecodim_dimmer_downlights_entrance
+          #   name: Entrance
+          #   tap_action:
+          #     !include popup/entrance.yaml
+          #   template:
+          #     - room_group
+          #     - icon_entrance
+          #   variables:
+          #     light_entity: light.ecodim_dimmer_downlights_entrance
 
+          # [BRUNO] Sala - adaptado para ambiente real
           - type: custom:button-card
-            entity: light.hallway_lights
-            name: Hallway
-            tap_action:
-              !include popup/hallway.yaml
-            template:
-              - room_group
-              - icon_hallway
-            variables:
-              light_entity: light.all_hallway_lights
-
-          - type: custom:button-card
-            entity: sensor.living_room_active
-            name: Living
+            entity: light.grupo_luzes_sala
+            name: Sala
             tap_action:
               !include popup/living_room.yaml
             template:
               - room_group
               - icon_sofa
             variables:
-              light_entity: light.ecodim_dimmer_downlights_living_room
+              light_entity: light.grupo_luzes_sala
 
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: light.hallway_lights
+          #   name: Hallway
+          #   tap_action:
+          #     !include popup/hallway.yaml
+          #   template:
+          #     - room_group
+          #     - icon_hallway
+          #   variables:
+          #     light_entity: light.all_hallway_lights
+
+          # [BRUNO] Circulação - adaptado para ambiente real
           - type: custom:button-card
-            entity: sensor.dining_room_active
-            name: Dining
+            entity: light.corredor_switch_1
+            name: Circulação
             tap_action:
-              !include popup/dining_room.yaml
+              !include popup/hallway.yaml
             template:
               - room_group
-              - icon_dining
+              - icon_hallway
             variables:
-              light_entity: light.dining_room_lights
+              light_entity: light.corredor_switch_1
+
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: sensor.living_room_active
+          #   name: Living
+          #   tap_action:
+          #     !include popup/living_room.yaml
+          #   template:
+          #     - room_group
+          #     - icon_sofa
+          #   variables:
+          #     light_entity: light.ecodim_dimmer_downlights_living_room
+
+          # [BRUNO] Cozinha - adaptado para ambiente real
+          - type: custom:button-card
+            entity: light.grupo_luzes_cozinha
+            name: Cozinha
+            tap_action:
+              !include popup/kitchen.yaml
+            template:
+              - room_group
+              - icon_kitchen
+            variables:
+              light_entity: light.grupo_luzes_cozinha
+
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: sensor.dining_room_active
+          #   name: Dining
+          #   tap_action:
+          #     !include popup/dining_room.yaml
+          #   template:
+          #     - room_group
+          #     - icon_dining
+          #   variables:
+          #     light_entity: light.dining_room_lights
+
+          # [BRUNO] Lavabo - adaptado para ambiente real
+          - type: custom:button-card
+            entity: light.grupo_luzes_lavabo
+            name: Lavabo
+            tap_action:
+              !include popup/lavabo.yaml
+            template:
+              - room_group
+              - icon_colgate
+            variables:
+              light_entity: light.grupo_luzes_lavabo
 
 
       #################################################
@@ -341,41 +393,93 @@ views:
           grid-area: rooms2
         columns: 2
         cards:
-          - type: custom:button-card
-            entity: light.ecodim_dimmer_downlights_bathroom
-            name: Bathroom
-            tap_action:
-              !include popup/bathroom.yaml
-            template:
-              - room_group
-              - icon_colgate
-            variables:
-              light_entity: light.ecodim_dimmer_downlights_bathroom
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: light.ecodim_dimmer_downlights_bathroom
+          #   name: Bathroom
+          #   tap_action:
+          #     !include popup/bathroom.yaml
+          #   template:
+          #     - room_group
+          #     - icon_colgate
+          #   variables:
+          #     light_entity: light.ecodim_dimmer_downlights_bathroom
 
+          # [BRUNO] Quarto Casal - adaptado para ambiente real
           - type: custom:button-card
-            entity: light.kitchen_lights
-            name: Kitchen
+            entity: light.grupo_quarto_casal
+            name: Quarto Casal
             tap_action:
-              !include popup/kitchen.yaml
-            template:
-              - room_group
-              - icon_kitchen
-            variables:
-              light_entity: light.kitchen_lights
-
-          - type: custom:button-card
-            entity: sensor.bedroom_active
-            name: Bedroom
-            tap_action:
-              !include popup/bedroom.yaml
+              !include popup/quarto_casal.yaml
             template:
               - room_group
               - icon_bed
             variables:
-              light_entity: light.bedroom_lights
+              light_entity: light.grupo_quarto_casal
 
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: light.kitchen_lights
+          #   name: Kitchen
+          #   tap_action:
+          #     !include popup/kitchen.yaml
+          #   template:
+          #     - room_group
+          #     - icon_kitchen
+          #   variables:
+          #     light_entity: light.kitchen_lights
+
+          # [BRUNO] Quarto Marina - adaptado para ambiente real
           - type: custom:button-card
-            entity: sensor.office_active
+            entity: light.grupo_luzes_quarto_marina
+            name: Quarto Marina
+            tap_action:
+              !include popup/quarto_marina.yaml
+            template:
+              - room_group
+              - icon_bed
+            variables:
+              light_entity: light.grupo_luzes_quarto_marina
+
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: sensor.bedroom_active
+          #   name: Bedroom
+          #   tap_action:
+          #     !include popup/bedroom.yaml
+          #   template:
+          #     - room_group
+          #     - icon_bed
+          #   variables:
+          #     light_entity: light.bedroom_lights
+
+          # [BRUNO] Quarto Miguel - adaptado para ambiente real
+          - type: custom:button-card
+            entity: light.grupo_luzes_quarto_miguel
+            name: Quarto Miguel
+            tap_action:
+              !include popup/quarto_miguel.yaml
+            template:
+              - room_group
+              - icon_bed
+            variables:
+              light_entity: light.grupo_luzes_quarto_miguel
+
+          # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+          # - type: custom:button-card
+          #   entity: sensor.office_active
+          #   name: Office
+          #   tap_action:
+          #     !include popup/office.yaml
+          #   template:
+          #     - room_group
+          #     - icon_office
+          #   variables:
+          #     light_entity: light.office_lights
+
+          # [BRUNO] Office - adaptado para ambiente real
+          - type: custom:button-card
+            entity: light.grupo_luzes_office
             name: Office
             tap_action:
               !include popup/office.yaml
@@ -383,7 +487,7 @@ views:
               - room_group
               - icon_office
             variables:
-              light_entity: light.office_lights
+              light_entity: light.grupo_luzes_office
 
 
 

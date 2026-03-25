@@ -1,0 +1,76 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Lavabo
+    style: >
+      --popup-background-color: transparent;
+    content:
+      type: custom:mod-card
+      card_mod:
+        style:
+          layout-card:
+            $grid-layout:
+              $:
+                .: |
+                  #root {
+                    margin: 15px !important;
+                  }
+
+      card:
+        type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 21vw
+          #grid-template-rows: 20vw 20vw
+          grid-template-areas: |
+            "lavabo lavabo lavabo"
+          mediaquery:
+            #phone
+            "(max-width: 800px)":
+              grid-template-columns: 20px 80vw 10px
+              #grid-template-rows: 1fr
+              grid-template-areas: |
+                ". lavabo ."
+            #tablet
+            "(max-width: 2000px)":
+              grid-template-columns: 21vw
+              #grid-template-rows: 1fr
+              grid-template-areas: |
+                "lavabo lavabo lavabo"
+
+        cards:
+
+          #################################################
+          #                                               #
+          #                    LAVABO                     #
+          #                                               #
+          #################################################
+
+          - type: grid
+            #title: Lavabo
+            view_layout:
+              grid-area: lavabo
+            cards:
+
+              # [BRUNO] Entidades do Lavabo
+              - type: custom:button-card
+                entity: light.lavabo_switch_1
+                name: LV - Luz parede
+                template:
+                  - light
+                  - icon_light_flush
+
+              - type: custom:button-card
+                entity: light.lavabo_switch_2
+                name: LV - Luz principal
+                template:
+                  - light
+                  - icon_light_recessed
+
+              - type: custom:button-card
+                entity: light.lavabo_switch_3
+                name: LV - Luz espelho
+                template:
+                  - light
+                  - icon_light_flush
