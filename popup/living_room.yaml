@@ -52,84 +52,189 @@ browser_mod:
               grid-area: living
             cards:
 
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_living_room_downlights
+              #   name: Spots
+              #   template:
+              #     - light
+              #     - icon_light_recessed
+
+              # [BRUNO] Entidade adaptada para ambiente real
               - type: custom:button-card
-                entity: light.ecodim_dimmer_living_room_downlights
-                name: Spots
+                entity: light.sala_switch_2
+                name: SL - Luz principal
+                template:
+                  - light
+                  - icon_light_recessed
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: media_player.lg_tv_77
+              #   name: LG TV
+              #   template:
+              #     - media
+              #     - icon_tv
+              #   triggers_update:
+              #     - input_boolean.lg_tv_77_screen_state
+              #   tap_action:
+              #     action: call-service
+              #     service: script.living_room_tv_screen_toggle
+              #   variables:
+              #     tv_screen: input_boolean.lg_tv_77_screen_state
+
+              # [BRUNO] Entidade adaptada para ambiente real
+              - type: custom:button-card
+                entity: media_player.smart_tv_pro_2
+                name: Smart TV Pro
+                template:
+                  - media
+                  - icon_tv
+                # triggers_update:
+                #   - input_boolean.lg_tv_77_screen_state
+                # tap_action:
+                #   action: call-service
+                #   service: script.living_room_tv_screen_toggle
+                # variables:
+                #   tv_screen: input_boolean.lg_tv_77_screen_state
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: media_player.denon_receiver
+              #   name: Receiver
+              #   template:
+              #     - media
+              #     - media_volume
+              #     - icon_receiver
+              #   variables:
+              #     player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
+              #     volume_control: media_player.denon_receiver
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: sensor.shield_real_state
+              #   name: SHIELD
+              #   template:
+              #     - media
+              #     - media_volume
+              #     - icon_nvidia_shield
+              #   variables:
+              #     player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
+              #     volume_control: media_player.denon_receiver
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: media_player.apple_tv_1
+              #   name: ATV 1
+              #   template:
+              #     - media
+              #     - media_volume
+              #     - icon_apple_tv
+              #     - atv
+              #   variables:
+              #     player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
+              #     volume_control: media_player.denon_receiver
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: media_player.sonos_port_living_room
+              #   name: SONOS
+              #   template:
+              #     - sonos
+              #     - icon_sonos
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: switch.subwoofers
+              #   name: Subs
+              #   tap_action:
+              #     action: call-service
+              #     service: switch.toggle
+              #     service_data:
+              #       entity_id: switch.subwoofers
+              #   template:
+              #     - base
+              #     - icon_sub
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.aqara_plug_living_room_disco_party
+              #   name: Disco
+              #   template:
+              #     - base
+              #     - icon_disco
+
+              # [BRUNO] Entidade adaptada para ambiente real
+              - type: custom:button-card
+                entity: media_player.echo_show
+                name: Echo Show
+                template:
+                  - base
+                  - icon_apple_tv
+                # variables:
+                #   player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
+
+              # [BRUNO] Entidades adicionais da Sala
+              - type: custom:button-card
+                entity: light.sala_switch_1
+                name: SL - Led direito
                 template:
                   - light
                   - icon_light_recessed
 
               - type: custom:button-card
-                entity: media_player.lg_tv_77
-                name: LG TV
+                entity: light.sala_switch_3
+                name: SL - Led esquerdo
                 template:
-                  - media
-                  - icon_tv
-                triggers_update:
-                  - input_boolean.lg_tv_77_screen_state
-                tap_action:
-                  action: call-service
-                  service: script.living_room_tv_screen_toggle
-                variables:
-                  tv_screen: input_boolean.lg_tv_77_screen_state
+                  - light
+                  - icon_light_recessed
 
               - type: custom:button-card
-                entity: media_player.denon_receiver
-                name: Receiver
+                entity: light.sala_2_switch_2
+                name: VR - Luz principal
                 template:
-                  - media
-                  - media_volume
-                  - icon_receiver
-                variables:
-                  player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-                  volume_control: media_player.denon_receiver
+                  - light
+                  - icon_light_recessed
 
               - type: custom:button-card
-                entity: sensor.shield_real_state
-                name: SHIELD
+                entity: light.sala_2_switch_3
+                name: VR - Cristaleira
                 template:
-                  - media
-                  - media_volume
-                  - icon_nvidia_shield
-                variables:
-                  player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-                  volume_control: media_player.denon_receiver
+                  - light
+                  - icon_light_flush
 
               - type: custom:button-card
-                entity: media_player.apple_tv_1
-                name: ATV 1
+                entity: light.varanda_switch_1
+                name: VR - Área gourmet
                 template:
-                  - media
-                  - media_volume
-                  - icon_apple_tv
-                  - atv
-                variables:
-                  player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-                  volume_control: media_player.denon_receiver
+                  - light
+                  - icon_light_recessed
 
               - type: custom:button-card
-                entity: media_player.sonos_port_living_room
-                name: SONOS
+                entity: light.varanda_switch_2
+                name: VR - Pendente
                 template:
-                  - sonos
-                  - icon_sonos
+                  - light
+                  - icon_ikea_pendant
 
               - type: custom:button-card
-                entity: switch.subwoofers
-                name: Subs
-                tap_action:
-                  action: call-service
-                  service: switch.toggle
-                  service_data:
-                    entity_id: switch.subwoofers
+                entity: lock.sl_fechadura_operate_lock
+                name: Fechadura
                 template:
                   - base
-                  - icon_sub
+                  - icon_lock
 
               - type: custom:button-card
-                entity: light.aqara_plug_living_room_disco_party
-                name: Disco
+                entity: camera.sl_camera_2
+                name: SL - Câmera
                 template:
-                  - base
-                  - icon_disco
+                  - camera
+                  - icon_unifi_cam
+
+              - type: custom:button-card
+                entity: camera.vr_camera_2
+                name: VR - Câmera
+                template:
+                  - camera
+                  - icon_unifi_cam
 

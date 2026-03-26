@@ -34,66 +34,126 @@
             {%- endif -%}
           </span>
         weather: |
-          {%- set temperature = states('sensor.netatmo_hjemme_weather_station_outdoor_module_temperature') %}
-          {%- set apparent = states('sensor.netatmo_hjemme_weather_station_outdoor_module_temperature') | round %}
-          {%- set precip = states('sensor.pirateweather_precip_probability') | round %}
-          {% if states.sensor.netatmo_hjemme_weather_station_outdoor_module_temperature.state %}
-            {%- if temperature | float(default=0) <= 0.0 -%}
-              It feels like {{ apparent }}° with {{ precip }}% risk for snow {{'\u2744\uFE0F'}}
-            {%- elif temperature | float(default=0) > 0.0 -%}
-              It feels like {{ apparent }}° with {{ precip }}% risk for rain {{ '\u2614\uFE0F' if precip > 30 }}
-            {%- endif %}
-          {%- else %}
-            Can't gather weather info...
-          {%- endif %}
+          # [ORIGINAL SAGALAND93] sensor netatmo/pirateweather não existe no ambiente atual – mantido comentado
+          # {%- set temperature = states('sensor.netatmo_hjemme_weather_station_outdoor_module_temperature') %}
+          # {%- set apparent = states('sensor.netatmo_hjemme_weather_station_outdoor_module_temperature') | round %}
+          # {%- set precip = states('sensor.pirateweather_precip_probability') | round %}
+          # {% if states.sensor.netatmo_hjemme_weather_station_outdoor_module_temperature.state %}
+          #   {%- if temperature | float(default=0) <= 0.0 -%}
+          #     It feels like {{ apparent }}° with {{ precip }}% risk for snow {{'\u2744\uFE0F'}}
+          #   {%- elif temperature | float(default=0) > 0.0 -%}
+          #     It feels like {{ apparent }}° with {{ precip }}% risk for rain {{ '\u2614\uFE0F' if precip > 30 }}
+          #   {%- endif %}
+          # {%- else %}
+          #   Can't gather weather info...
+          # {%- endif %}
         occasion: |
-          {%- set occasion = states.sensor.special_occasions.state %}
-          {%- if occasion == "New year" -%} {{'🎉'}} <b>Happy new year!!</b>
-          {%- elif occasion == "Christmas" -%} {{'🎄'}} <b>Merry Christmas!</b> {{'🎅🏼'}}
-          {%- elif "Pappa" in occasion -%} {{'🎂'}} <b>Special occasion!</b><br>It's dad's birthday <strong>today</strong>! He turns {{now().strftime('%Y') | round(0) - 1961}}</b> {{'👴'}}
-          {%- elif "Mamma" in occasion -%} {{'🎂'}} <b>Special occasion!</b><br>It's mom's birthday <strong>today</strong>! She turns {{now().strftime('%Y') | round(0) - 1968}}</b> {{'👵'}}
-          {%- elif "Birthday" in occasion -%} {{'🎂'}} <b>Happy birthday, André!!</b>
-          {%- elif "Constitution" in occasion -%} {{'🤝🏼'}} <b>Happy birthday, Norway!</b>
-          {%- elif "Mother" in occasion -%} {{'🎖️'}} <b>Remember Mother's day's today!</b>
-          {%- elif "Father" in occasion -%} {{'🎖️'}} <b>Remember Father's day's today!</b>
-          {%- endif %}
+          # [ORIGINAL SAGALAND93] sensor.special_occasions não existe no ambiente atual – mantido comentado
+          # {%- set occasion = states.sensor.special_occasions.state %}
+          # {%- if occasion == "New year" -%} {{'🎉'}} <b>Happy new year!!</b>
+          # {%- elif occasion == "Christmas" -%} {{'🎄'}} <b>Merry Christmas!</b> {{'🎅🏼'}}
+          # {%- elif "Pappa" in occasion -%} {{'🎂'}} <b>Special occasion!</b><br>It's dad's birthday <strong>today</strong>! He turns {{now().strftime('%Y') | round(0) - 1961}}</b> {{'👴'}}
+          # {%- elif "Mamma" in occasion -%} {{'🎂'}} <b>Special occasion!</b><br>It's mom's birthday <strong>today</strong>! She turns {{now().strftime('%Y') | round(0) - 1968}}</b> {{'👵'}}
+          # {%- elif "Birthday" in occasion -%} {{'🎂'}} <b>Happy birthday, André!!</b>
+          # {%- elif "Constitution" in occasion -%} {{'🤝🏼'}} <b>Happy birthday, Norway!</b>
+          # {%- elif "Mother" in occasion -%} {{'🎖️'}} <b>Remember Mother's day's today!</b>
+          # {%- elif "Father" in occasion -%} {{'🎖️'}} <b>Remember Father's day's today!</b>
+          # {%- endif %}
         active: |
+          # [ORIGINAL SAGALAND93] Luzes originais – mantido comentado
+          # {%- set lights = [
+          #   states.light.kommode,
+          #   states.light.hue_color_hallway_lamp,
+          #   states.light.vitrineskap,
+          #   states.light.ecodim_dimmer_downlights_entrance,
+          #   states.light.ecodim_dimmer_kitchen_cabinets,
+          #   states.light.ecodim_dimmer_downlights_kitchen,
+          #   states.light.ecodim_dimmer_downlights_hallway,
+          #   states.light.ecodim_dimmer_downlights_stairs,
+          #   states.light.ecodim_dimmer_ceiling_dining_room,
+          #   states.light.ecodim_dimmer_downlights_dining_room,
+          #   states.light.ecodim_dimmer_downlights_living_room,
+          #   states.light.ecodim_dimmer_downlights_bathroom,
+          #   states.light.ecodim_dimmer_downlights_wc,
+          #   states.light.ecodim_dimmer_ceiling_downstairs,
+          #   states.light.hue_fair_ceiling_office,
+          #   states.light.superman_symbol,
+          #   states.light.hue_play_1,
+          #   states.light.hue_play_2,
+          #   states.light.ecodim_dimmer_ceiling_bedroom
+          # ] %}
+
+          # [ORIGINAL SAGALAND93] Switches originais – mantido comentado
+          # {%- set switches = [
+          #   states.media_player.lg_tv_77,
+          #   states.media_player.lg_tv_55,
+          #   states.switch.office_pc
+          # ] %}
+
+          # [ORIGINAL SAGALAND93] Media players originais – mantido comentado
+          # {%- set media_players = [
+          #   states.media_player.apple_tv_1,
+          #   states.media_player.apple_tv_2,
+          #   states.sensor.shield_real_state,
+          #   states.media_player.sonos_connect_stua,
+          #   states.media_player.spisestua,
+          #   states.media_player.play_one_2,
+          #   states.media_player.badet
+          # ] %}
+
+          # [BRUNO] Luzes do ambiente real
           {%- set lights = [
-            states.light.kommode,
-            states.light.hue_color_hallway_lamp,
-            states.light.vitrineskap,
-            states.light.ecodim_dimmer_downlights_entrance,
-            states.light.ecodim_dimmer_kitchen_cabinets,
-            states.light.ecodim_dimmer_downlights_kitchen,
-            states.light.ecodim_dimmer_downlights_hallway,
-            states.light.ecodim_dimmer_downlights_stairs,
-            states.light.ecodim_dimmer_ceiling_dining_room,
-            states.light.ecodim_dimmer_downlights_dining_room,
-            states.light.ecodim_dimmer_downlights_living_room,
-            states.light.ecodim_dimmer_downlights_bathroom,
-            states.light.ecodim_dimmer_downlights_wc,
-            states.light.ecodim_dimmer_ceiling_downstairs,
-            states.light.hue_fair_ceiling_office,
-            states.light.superman_symbol,
-            states.light.hue_play_1,
-            states.light.hue_play_2,
-            states.light.ecodim_dimmer_ceiling_bedroom
+            states.light.sala_switch_1,
+            states.light.sala_switch_2,
+            states.light.sala_switch_3,
+            states.light.sala_2_switch_2,
+            states.light.sala_2_switch_3,
+            states.light.varanda_switch_1,
+            states.light.varanda_switch_2,
+            states.light.cozinha_switch_1,
+            states.light.cozinha_switch_2,
+            states.light.cozinha_switch_3,
+            states.light.corredor_switch_1,
+            states.light.lavabo_switch_1,
+            states.light.lavabo_switch_2,
+            states.light.lavabo_switch_3,
+            states.light.office_switch_1,
+            states.light.office_switch_2,
+            states.light.office_switch_3,
+            states.light.quarto_casal_switch_1,
+            states.light.quarto_casal_switch_2,
+            states.light.quarto_casal_2_switch_2,
+            states.light.quarto_casal_2_switch_3,
+            states.light.qc_luz_principal,
+            states.light.suite_casal_switch_1,
+            states.light.suite_casal_switch_2,
+            states.light.quarto_marina_switch_1,
+            states.light.quarto_marina_switch_2,
+            states.light.quarto_marina_switch_3,
+            states.light.quarto_marina_switch_4,
+            states.light.suite_marina_switch_1,
+            states.light.suite_marina_switch_2
           ] %}
 
+          # [BRUNO] Switches do ambiente real (Quarto Miguel usa switch.*)
           {%- set switches = [
-            states.media_player.lg_tv_77,
-            states.media_player.lg_tv_55,
-            states.switch.office_pc
+            states.media_player.smart_tv_pro_2,
+            states.switch.quarto_miguel_switch_1,
+            states.switch.quarto_miguel_switch_2,
+            states.switch.quarto_miguel_switch_3,
+            states.switch.quarto_miguel_2_switch_1,
+            states.switch.quarto_miguel_2_switch_2,
+            states.switch.quarto_miguel_2_switch_3,
+            states.switch.suite_miguel_switch_1,
+            states.switch.suite_miguel_switch_2
           ] %}
 
+          # [BRUNO] Media players do ambiente real
           {%- set media_players = [
-            states.media_player.apple_tv_1,
-            states.media_player.apple_tv_2,
-            states.sensor.shield_real_state,
-            states.media_player.sonos_connect_stua,
-            states.media_player.spisestua,
-            states.media_player.play_one_2,
-            states.media_player.badet
+            states.media_player.smart_tv_pro_2,
+            states.media_player.echo_show,
+            states.media_player.echo_pop_quarto_casal,
+            states.media_player.echo_pop_marina
           ] %}
 
           {%- set lights_on = lights | selectattr('state','eq','on') | list %}
@@ -129,16 +189,17 @@
             <b><font color='#6a7377'>Everything is off</font></b>
           {%- endif -%}
         power: |
-          {%- set nordpool = states('sensor.nordpool_hvfoss') %}
-          {% if nordpool not in ['unavailable', 'unknown'] %}
-            {%- set elprice = states('sensor.nordpool_hvfoss') | round(2) %}
-            {% if elprice >= 5 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'🚀'}}
-            {%- elif elprice >= 4 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'📈'}}
-            {%- elif elprice >= 3 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'💰'}}
-            {%- elif elprice >= 2 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'💸'}}
-            {%- elif elprice >= 1 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,-
-            {%- endif %}
-          {%- endif %}
+          # [ORIGINAL SAGALAND93] sensor.nordpool_hvfoss não existe no ambiente atual – mantido comentado
+          # {%- set nordpool = states('sensor.nordpool_hvfoss') %}
+          # {% if nordpool not in ['unavailable', 'unknown'] %}
+          #   {%- set elprice = states('sensor.nordpool_hvfoss') | round(2) %}
+          #   {% if elprice >= 5 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'🚀'}}
+          #   {%- elif elprice >= 4 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'📈'}}
+          #   {%- elif elprice >= 3 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'💰'}}
+          #   {%- elif elprice >= 2 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,- {{'💸'}}
+          #   {%- elif elprice >= 1 -%} {{'⚡'}} price is: <strong>{{ elprice }}</strong>,-
+          #   {%- endif %}
+          # {%- endif %}
         battery: |
           {% set entities = states.sensor 
             | selectattr('entity_id', 'search', 'battery')
@@ -150,27 +211,30 @@
             {{ state_attr(sensor, 'friendly_name') }}: {% if states(sensor) | int(default=0) == 0 %}<strong>dead</strong>{% else %}{{ states(sensor) }}%{% endif -%}
           {%- endfor %}
         plex: |
-          {% if states.binary_sensor.ping_rackstation.state != 'on' -%}
-            {{-'\u26A0\uFE0F'}} Plex is down...
-          {%- endif %}
+          # [ORIGINAL SAGALAND93] binary_sensor.ping_rackstation não existe no ambiente atual – mantido comentado
+          # {% if states.binary_sensor.ping_rackstation.state != 'on' -%}
+          #   {{-'\u26A0\uFE0F'}} Plex is down...
+          # {%- endif %}
         nas: |
-          {% if states.binary_sensor.ping_rackstation.state != 'on' -%}
-            {{-'\u26A0\uFE0F'}} RackStation is down...
-          {%- endif %}
-          {% if states.binary_sensor.ping_diskstation.state != 'on' -%}
-            {{-'\u26A0\uFE0F'}} DiskStation is down...
-          {%- endif %}
+          # [ORIGINAL SAGALAND93] ping_rackstation/diskstation não existem no ambiente atual – mantido comentado
+          # {% if states.binary_sensor.ping_rackstation.state != 'on' -%}
+          #   {{-'\u26A0\uFE0F'}} RackStation is down...
+          # {%- endif %}
+          # {% if states.binary_sensor.ping_diskstation.state != 'on' -%}
+          #   {{-'\u26A0\uFE0F'}} DiskStation is down...
+          # {%- endif %}
         waste: |
-          {%- if states.sensor.waste_pickup.state != 'off' -%} 
-            {%- set time = now().hour %}
-            {%- set today = state_attr('sensor.waste_pickup','today') %}
-            {%- set waste_today = today | join(', ')%}
-            {%- set tomorrow = state_attr('sensor.waste_pickup','tomorrow') %}
-            {%- set waste_tomorrow = tomorrow | join(', ')%}
-            {%- if waste_tomorrow != "nothing" -%} The <strong>{{waste_tomorrow | regex_replace(',([^,]*)$',' and\\1')}}</strong> waste gets picked up <strong>tomorrow</strong>
-            {%- elif waste_today != "nothing" -%} 
-              {%- if time <= 7 -%}
-                The <strong>{{waste_today | regex_replace(',([^,]*)$',' and\\1')}}</strong> waste<br> gets picked up <strong>today</strong>
-              {%- endif %}
-            {%- endif %}
-          {%- endif %}
+          # [ORIGINAL SAGALAND93] sensor.waste_pickup não existe no ambiente atual – mantido comentado
+          # {%- if states.sensor.waste_pickup.state != 'off' -%}
+          #   {%- set time = now().hour %}
+          #   {%- set today = state_attr('sensor.waste_pickup','today') %}
+          #   {%- set waste_today = today | join(', ')%}
+          #   {%- set tomorrow = state_attr('sensor.waste_pickup','tomorrow') %}
+          #   {%- set waste_tomorrow = tomorrow | join(', ')%}
+          #   {%- if waste_tomorrow != "nothing" -%} The <strong>{{waste_tomorrow | regex_replace(',([^,]*)$',' and\\1')}}</strong> waste gets picked up <strong>tomorrow</strong>
+          #   {%- elif waste_today != "nothing" -%}
+          #     {%- if time <= 7 -%}
+          #       The <strong>{{waste_today | regex_replace(',([^,]*)$',' and\\1')}}</strong> waste<br> gets picked up <strong>today</strong>
+          #     {%- endif %}
+          #   {%- endif %}
+          # {%- endif %}

@@ -1,0 +1,174 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Quarto Marina
+    style: >
+      --popup-background-color: transparent;
+    content:
+      type: custom:mod-card
+      card_mod:
+        style:
+          layout-card:
+            $grid-layout:
+              $:
+                .: |
+                  #root {
+                    margin: 15px !important;
+                  }
+
+      card:
+        type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 21vw
+          #grid-template-rows: 20vw 20vw
+          grid-template-areas: |
+            "quarto_marina quarto_marina quarto_marina"
+          mediaquery:
+            #phone
+            "(max-width: 800px)":
+              grid-template-columns: 20px 80vw 10px
+              #grid-template-rows: 1fr
+              grid-template-areas: |
+                ". quarto_marina ."
+            #tablet
+            "(max-width: 2000px)":
+              grid-template-columns: 21vw
+              #grid-template-rows: 1fr
+              grid-template-areas: |
+                "quarto_marina quarto_marina quarto_marina"
+
+        cards:
+
+          #################################################
+          #                                               #
+          #                QUARTO MARINA                  #
+          #                                               #
+          #################################################
+
+          - type: grid
+            #title: Quarto Marina
+            view_layout:
+              grid-area: quarto_marina
+            cards:
+
+              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_bedroom_ceiling
+              #   name: Devote L
+              #   template:
+              #     - light
+              #     - icon_hue_devote
+
+              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_bedroom_ceiling
+              #   name: Devote R
+              #   template:
+              #     - light
+              #     - icon_hue_devote
+
+              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_bedroom_ceiling
+              #   name: Ceiling
+              #   template:
+              #     - light
+              #     - icon_ikea_pendant
+
+              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
+              # - type: custom:button-card
+              #   entity: media_player.lg_tv_55
+              #   name: LG TV
+              #   template:
+              #     - media
+              #     - icon_tv
+              #   triggers_update:
+              #     - input_boolean.lg_tv_55_screen_state
+              #   tap_action:
+              #     action: call-service
+              #     service: script.bedroom_tv_screen_toggle
+              #   variables:
+              #     tv_screen: input_boolean.lg_tv_55_screen_state
+
+              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
+              # - type: custom:button-card
+              #   entity: media_player.apple_tv_2
+              #   name: ATV 2
+              #   template:
+              #     - media
+              #     - media_volume
+              #     - atv
+              #     - icon_apple_tv
+              #   variables:
+              #     player: media_player.sonos_arc_bedroom
+
+              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
+              # - type: custom:button-card
+              #   entity: media_player.sonos_arc_bedroom
+              #   name: Arc
+              #   template:
+              #     - media
+              #     - media_volume
+              #     - sonos
+              #     - icon_sonos
+              #   variables:
+              #     volume_control: media_player.sonos_arc_bedroom
+
+              # [BRUNO] Entidades do Quarto Marina
+              - type: custom:button-card
+                entity: light.quarto_marina_switch_1
+                name: QMA - Arandelas
+                template:
+                  - light
+                  - icon_light_flush
+
+              - type: custom:button-card
+                entity: light.quarto_marina_switch_2
+                name: QMA - Estante
+                template:
+                  - light
+                  - icon_light_flush
+
+              - type: custom:button-card
+                entity: light.quarto_marina_switch_3
+                name: QMA - Luz cortineiro
+                template:
+                  - light
+                  - icon_light_recessed
+
+              - type: custom:button-card
+                entity: light.quarto_marina_switch_4
+                name: QMA - Luz principal
+                template:
+                  - light
+                  - icon_light_recessed
+
+              - type: custom:button-card
+                entity: light.suite_marina_switch_1
+                name: QMAS - Luz azul
+                template:
+                  - light
+                  - icon_hue
+
+              - type: custom:button-card
+                entity: light.suite_marina_switch_2
+                name: QMAS - Luz principal
+                template:
+                  - light
+                  - icon_light_recessed
+
+              - type: custom:button-card
+                entity: media_player.echo_pop_marina
+                name: Echo Pop Marina
+                template:
+                  - base
+                  - icon_sonos
+
+              - type: custom:button-card
+                entity: camera.qma_camera_2
+                name: QMA - Câmera
+                template:
+                  - camera
+                  - icon_unifi_cam

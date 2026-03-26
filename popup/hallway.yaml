@@ -2,7 +2,7 @@ action: fire-dom-event
 browser_mod:
   service: browser_mod.popup
   data:
-    title: Hallway
+    title: Circulação
     style: >
       --popup-background-color: transparent;
     content:
@@ -54,43 +54,56 @@ browser_mod:
               grid-area: hallway
             cards:
 
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_stairs_downlights
+              #   name: Stairs
+              #   template:
+              #     - light
+              #     - icon_light_recessed
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_hallway_downlights
+              #   name: Hallway
+              #   template:
+              #     - light
+              #     - icon_light_recessed
+
+              # [BRUNO] Entidade adaptada para ambiente real
               - type: custom:button-card
-                entity: light.ecodim_dimmer_stairs_downlights
-                name: Stairs
+                entity: light.corredor_switch_1
+                name: COR - Luz principal
                 template:
                   - light
                   - icon_light_recessed
 
-              - type: custom:button-card
-                entity: light.ecodim_dimmer_hallway_downlights
-                name: Hallway
-                template:
-                  - light
-                  - icon_light_recessed
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.hue_bulb_color_hallway_lamp
+              #   name: Lamp
+              #   template:
+              #     - light
+              #     - icon_hue
 
-              - type: custom:button-card
-                entity: light.hue_bulb_color_hallway_lamp
-                name: Lamp
-                template:
-                  - light
-                  - icon_hue
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.ikea_driver_hallway_display_cabinet
+              #   name: Cabinet
+              #   template:
+              #     - light
+              #     - icon_light_flush
 
-              - type: custom:button-card
-                entity: light.ikea_driver_hallway_display_cabinet
-                name: Cabinet
-                template:
-                  - light
-                  - icon_light_flush
-
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
               ### OFF ###
-              - type: conditional
-                conditions:
-                  - entity: sensor.christmas_mode
-                    state: 'on'
-                card: 
-                  type: custom:button-card
-                  entity: light.christmas_tree
-                  name: Tree
-                  template:
-                    - base
-                    - icon_christmas_tree
+              # - type: conditional
+              #   conditions:
+              #     - entity: sensor.christmas_mode
+              #       state: 'on'
+              #   card:
+              #     type: custom:button-card
+              #     entity: light.christmas_tree
+              #     name: Tree
+              #     template:
+              #       - base
+              #       - icon_christmas_tree

@@ -53,25 +53,66 @@ browser_mod:
               grid-area: kitchen
             cards:
 
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_kitchen_downlights
+              #   name: Spots
+              #   template:
+              #     - light
+              #     - icon_light_recessed
+
+              # [BRUNO] Entidade adaptada para ambiente real
               - type: custom:button-card
-                entity: light.ecodim_dimmer_kitchen_downlights
-                name: Spots
+                entity: light.cozinha_switch_2
+                name: CZ - Luz principal 1
+                template:
+                  - light
+                  - icon_light_recessed
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: light.ecodim_dimmer_kitchen_cabinets
+              #   name: Cabinets
+              #   template:
+              #     - light
+              #     - icon_downlight_kitchen
+
+              # [BRUNO] Entidade adaptada para ambiente real
+              - type: custom:button-card
+                entity: light.cozinha_switch_3
+                name: CZ - Luz principal 2
+                template:
+                  - light
+                  - icon_downlight_kitchen
+
+              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
+              # - type: custom:button-card
+              #   entity: sensor.xiaomi_airfryer_status
+              #   name: Airfryer
+              #   template:
+              #     - airfryer
+              #     - icon_airfryer
+
+              # [BRUNO] Entidades adicionais da Cozinha
+              - type: custom:button-card
+                entity: light.cozinha_switch_1
+                name: AS - Lavanderia
                 template:
                   - light
                   - icon_light_recessed
 
               - type: custom:button-card
-                entity: light.ecodim_dimmer_kitchen_cabinets
-                name: Cabinets
+                entity: camera.cz_camera_2
+                name: CZ - Câmera
                 template:
-                  - light
-                  - icon_downlight_kitchen
+                  - camera
+                  - icon_unifi_cam
 
               - type: custom:button-card
-                entity: sensor.xiaomi_airfryer_status
-                name: Airfryer
+                entity: camera.as_camera_2
+                name: AS - Câmera
                 template:
-                  - airfryer
-                  - icon_airfryer
+                  - camera
+                  - icon_unifi_cam
 
 
