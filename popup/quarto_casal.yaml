@@ -177,5 +177,5 @@ browser_mod:
                 entity: camera.camera_quarto_casal_2
                 name: Câmera QC
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam

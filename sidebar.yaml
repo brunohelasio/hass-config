@@ -34,21 +34,13 @@
             {%- endif -%}
           </span>
         weather: |
-          {%- set temperature = states('sensor.weather_temperature') %}
-          {%- set apparent = states('sensor.weather_feel_temp') %}
-          {%- set precip = states('sensor.pirateweather_precip_probability') %}
-          {%- if temperature not in ['unknown', 'unavailable', 'none', 'None'] %}
-            {%- set t = temperature | float(default=0) -%}
-            {%- set app = apparent | float(default=t) | round(0) -%}
-            {%- set p = precip | float(default=0) | round(0) -%}
-            {%- if t <= 0.0 -%}
-              It feels like {{ app }}° with {{ p }}% risk for snow {{'\u2744\uFE0F'}}
-            {%- else -%}
-              It feels like {{ app }}° with {{ p }}% risk for rain {{ '\u2614\uFE0F' if p > 30 }}
-            {%- endif %}
-          {%- else %}
+          {%- set t = states('sensor.weather_temperature') -%}
+          {%- set a = states('sensor.weather_feel_temp') -%}
+          {%- if t not in ['unknown', 'unavailable', 'none', 'None'] -%}
+            It feels like {{ a if a not in ['unknown', 'unavailable', 'none', 'None'] else t }}°
+          {%- else -%}
             Can't gather weather info...
-          {%- endif %}
+          {%- endif -%}
         occasion: |
           # [ORIGINAL SAGALAND93] sensor.special_occasions não existe no ambiente atual – mantido comentado
           # {%- set occasion = states.sensor.special_occasions.state %}
@@ -103,90 +95,10 @@
           #   states.media_player.badet
           # ] %}
 
-          # [BRUNO] Luzes do ambiente real (expand evita erro se alguma entidade não existir)
-          {%- set lights = expand(
-            'light.sala_switch_1',
-            'light.sala_switch_2',
-            'light.sala_switch_3',
-            'light.sala_2_switch_2',
-            'light.sala_2_switch_3',
-            'light.varanda_switch_1',
-            'light.varanda_switch_2',
-            'light.cozinha_switch_1',
-            'light.cozinha_switch_2',
-            'light.cozinha_switch_3',
-            'light.corredor_switch_1',
-            'light.lavabo_switch_1',
-            'light.lavabo_switch_2',
-            'light.lavabo_switch_3',
-            'light.office_switch_1',
-            'light.office_switch_2',
-            'light.office_switch_3',
-            'light.quarto_casal_switch_1',
-            'light.quarto_casal_switch_2',
-            'light.quarto_casal_2_switch_2',
-            'light.quarto_casal_2_switch_3',
-            'light.qc_luz_principal',
-            'light.suite_casal_switch_1',
-            'light.suite_casal_switch_2',
-            'light.quarto_marina_switch_1',
-            'light.quarto_marina_switch_2',
-            'light.quarto_marina_switch_3',
-            'light.quarto_marina_switch_4',
-            'light.suite_marina_switch_1',
-            'light.suite_marina_switch_2'
-          ) %}
-
-          # [BRUNO] Switches do ambiente real (Quarto Miguel usa switch.*)
-          {%- set switches = expand(
-            'switch.quarto_miguel_switch_1',
-            'switch.quarto_miguel_switch_2',
-            'switch.quarto_miguel_switch_3',
-            'switch.quarto_miguel_2_switch_1',
-            'switch.quarto_miguel_2_switch_2',
-            'switch.quarto_miguel_2_switch_3',
-            'switch.suite_miguel_switch_1',
-            'switch.suite_miguel_switch_2'
-          ) %}
-
-          # [BRUNO] Media players do ambiente real
-          {%- set media_players = expand(
-            'media_player.smart_tv_pro_2',
-            'media_player.echo_show',
-            'media_player.echo_pop_quarto_casal',
-            'media_player.echo_pop_marina'
-          ) %}
-
-          {%- set lights_on = lights | selectattr('state','eq','on') | list %}
-          {%- set lights_name = lights | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
-
-          {%- set switches_on = switches | selectattr('state','eq','on') | list %}
-          {%- set media_players_playing = media_players | selectattr('state','eq','playing') | list %}
-          {%- set append = switches_on + media_players_playing %}
-          {%- set switches_name = append | map(attribute='name') | join(', ') %}
-
-          {%- if (lights_on | length == 0) and (switches_on | length > 0) -%}
-            <b>{{ switches_name | regex_replace(',([^,]*)$',' and\\1') }} is on</b>
-
-          {%- elif (lights_on | length == 1) and (switches_on | length == 1) -%}
-            <b>{{ lights_name }} and the {{switches_name }} is on</b>
-
-          {%- elif (lights_on | length == 1) and (switches_on | length > 1) -%}
-            <b>{{ lights_name }}, {{ switches_name | regex_replace(',([^,]*)$',' and\\1') }} is on</b>
-
-          {%- elif (lights_on | length > 1) and (switches_on | length == 1) -%}
-            <b>{{ lights_on | length }} lights and the {{ switches_name }} is on</b>
-
-          {%- elif (lights_on | length > 1) and (switches_on | length > 1) -%}
-            <b>{{ lights_on | length }} lights, {{ switches_name | regex_replace(',([^,]*)$',' and\\1') }} are on</b>
-
-          {%- elif (lights_on | length == 1) and (switches_on | length == 0) -%}
-            {{'💡'}} <b>{{ lights_name }} is on</b>
-
-          {%- elif (lights_on | length > 1) and (switches_on | length == 0) -%}
-            {{'💡'}} <b>{{ lights_on | length }} lights are on</b>
-
-          {%- else %}
+          {%- set lights_on = states.light | selectattr('state', 'eq', 'on') | list | length -%}
+          {%- if lights_on > 0 -%}
+            {{'💡'}} <b>{{ lights_on }} lights are on</b>
+          {%- else -%}
             <b><font color='#6a7377'>Everything is off</font></b>
           {%- endif -%}
         power: |

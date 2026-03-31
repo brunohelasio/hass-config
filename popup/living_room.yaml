@@ -228,13 +228,13 @@ browser_mod:
                 entity: camera.sl_camera_2
                 name: SL - Câmera
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam
 
               - type: custom:button-card
                 entity: camera.vr_camera_2
                 name: VR - Câmera
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam
 
