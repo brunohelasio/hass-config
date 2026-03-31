@@ -300,8 +300,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_luzes_sala
             name: Sala
-            tap_action:
-              !include popup/living_room.yaml
+            tap_action: !include popup/living_room.yaml
             template:
               - room_group
               - icon_sofa
@@ -324,8 +323,7 @@ views:
           - type: custom:button-card
             entity: light.corredor_switch_1
             name: Circulação
-            tap_action:
-              !include popup/hallway.yaml
+            tap_action: !include popup/hallway.yaml
             template:
               - room_group
               - icon_hallway
@@ -348,8 +346,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_luzes_cozinha
             name: Cozinha
-            tap_action:
-              !include popup/kitchen.yaml
+            tap_action: !include popup/kitchen.yaml
             template:
               - room_group
               - icon_kitchen
@@ -372,8 +369,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_luzes_lavabo
             name: Lavabo
-            tap_action:
-              !include popup/lavabo.yaml
+            tap_action: !include popup/lavabo.yaml
             template:
               - room_group
               - icon_colgate
@@ -409,8 +405,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_quarto_casal
             name: Quarto Casal
-            tap_action:
-              !include popup/quarto_casal.yaml
+            tap_action: !include popup/quarto_casal.yaml
             template:
               - room_group
               - icon_bed
@@ -433,8 +428,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_luzes_quarto_marina
             name: Quarto Marina
-            tap_action:
-              !include popup/quarto_marina.yaml
+            tap_action: !include popup/quarto_marina.yaml
             template:
               - room_group
               - icon_bed
@@ -457,8 +451,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_luzes_quarto_miguel
             name: Quarto Miguel
-            tap_action:
-              !include popup/quarto_miguel.yaml
+            tap_action: !include popup/quarto_miguel.yaml
             template:
               - room_group
               - icon_bed
@@ -481,8 +474,7 @@ views:
           - type: custom:button-card
             entity: light.grupo_luzes_office
             name: Office
-            tap_action:
-              !include popup/office.yaml
+            tap_action: !include popup/office.yaml
             template:
               - room_group
               - icon_office
@@ -1049,4 +1041,3 @@ views:
           - sensor.rss_search_result_tv_shows
           - sensor.radarr_rss_search_result
           - sensor.torrent_tv_show_already_downloaded
-
