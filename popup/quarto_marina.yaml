@@ -170,5 +170,5 @@ browser_mod:
                 entity: camera.qma_camera_2
                 name: QMA - Câmera
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam

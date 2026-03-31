@@ -34,19 +34,13 @@
             {%- endif -%}
           </span>
         weather: |
-          # [ORIGINAL SAGALAND93] sensor netatmo/pirateweather não existe no ambiente atual – mantido comentado
-          # {%- set temperature = states('sensor.netatmo_hjemme_weather_station_outdoor_module_temperature') %}
-          # {%- set apparent = states('sensor.netatmo_hjemme_weather_station_outdoor_module_temperature') | round %}
-          # {%- set precip = states('sensor.pirateweather_precip_probability') | round %}
-          # {% if states.sensor.netatmo_hjemme_weather_station_outdoor_module_temperature.state %}
-          #   {%- if temperature | float(default=0) <= 0.0 -%}
-          #     It feels like {{ apparent }}° with {{ precip }}% risk for snow {{'\u2744\uFE0F'}}
-          #   {%- elif temperature | float(default=0) > 0.0 -%}
-          #     It feels like {{ apparent }}° with {{ precip }}% risk for rain {{ '\u2614\uFE0F' if precip > 30 }}
-          #   {%- endif %}
-          # {%- else %}
-          #   Can't gather weather info...
-          # {%- endif %}
+          {%- set t = states('sensor.weather_temperature') -%}
+          {%- set a = states('sensor.weather_feel_temp') -%}
+          {%- if t not in ['unknown', 'unavailable', 'none', 'None'] -%}
+            It feels like {{ a if a not in ['unknown', 'unavailable', 'none', 'None'] else t }}°
+          {%- else -%}
+            Can't gather weather info...
+          {%- endif -%}
         occasion: |
           # [ORIGINAL SAGALAND93] sensor.special_occasions não existe no ambiente atual – mantido comentado
           # {%- set occasion = states.sensor.special_occasions.state %}
@@ -101,91 +95,10 @@
           #   states.media_player.badet
           # ] %}
 
-          # [BRUNO] Luzes do ambiente real
-          {%- set lights = [
-            states.light.sala_switch_1,
-            states.light.sala_switch_2,
-            states.light.sala_switch_3,
-            states.light.sala_2_switch_2,
-            states.light.sala_2_switch_3,
-            states.light.varanda_switch_1,
-            states.light.varanda_switch_2,
-            states.light.cozinha_switch_1,
-            states.light.cozinha_switch_2,
-            states.light.cozinha_switch_3,
-            states.light.corredor_switch_1,
-            states.light.lavabo_switch_1,
-            states.light.lavabo_switch_2,
-            states.light.lavabo_switch_3,
-            states.light.office_switch_1,
-            states.light.office_switch_2,
-            states.light.office_switch_3,
-            states.light.quarto_casal_switch_1,
-            states.light.quarto_casal_switch_2,
-            states.light.quarto_casal_2_switch_2,
-            states.light.quarto_casal_2_switch_3,
-            states.light.qc_luz_principal,
-            states.light.suite_casal_switch_1,
-            states.light.suite_casal_switch_2,
-            states.light.quarto_marina_switch_1,
-            states.light.quarto_marina_switch_2,
-            states.light.quarto_marina_switch_3,
-            states.light.quarto_marina_switch_4,
-            states.light.suite_marina_switch_1,
-            states.light.suite_marina_switch_2
-          ] %}
-
-          # [BRUNO] Switches do ambiente real (Quarto Miguel usa switch.*)
-          {%- set switches = [
-            states.media_player.smart_tv_pro_2,
-            states.switch.quarto_miguel_switch_1,
-            states.switch.quarto_miguel_switch_2,
-            states.switch.quarto_miguel_switch_3,
-            states.switch.quarto_miguel_2_switch_1,
-            states.switch.quarto_miguel_2_switch_2,
-            states.switch.quarto_miguel_2_switch_3,
-            states.switch.suite_miguel_switch_1,
-            states.switch.suite_miguel_switch_2
-          ] %}
-
-          # [BRUNO] Media players do ambiente real
-          {%- set media_players = [
-            states.media_player.smart_tv_pro_2,
-            states.media_player.echo_show,
-            states.media_player.echo_pop_quarto_casal,
-            states.media_player.echo_pop_marina
-          ] %}
-
-          {%- set lights_on = lights | selectattr('state','eq','on') | list %}
-          {%- set lights_name = lights | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
-
-          {%- set switches_on = switches | selectattr('state','eq','on') | list %}
-          {%- set media_players_playing = media_players | selectattr('state','eq','playing') | list %}
-          {%- set append = switches_on + media_players_playing %}
-          {%- set switches_name = append | map(attribute='name') | join(', ') %}
-
-          {%- if (lights_on | length == 0) and (switches_on | length > 0) -%}
-            <b>{{ switches_name | regex_replace(',([^,]*)$',' and\\1') }} is on</b>
-
-          {%- elif (lights_on | length == 1) and (switches_on | length == 1) -%}
-            <b>{{ lights_name }} and the {{switches_name }} is on</b>
-
-          {%- elif (lights_on | length == 1) and (switches_on | length > 1) -%}
-            <b>{{ lights_name }}, {{ switches_name | regex_replace(',([^,]*)$',' and\\1') }} is on</b>
-
-          {%- elif (lights_on | length > 1) and (switches_on | length == 1) -%}
-            <b>{{ lights_on | length }} lights and the {{ switches_name }} is on</b>
-
-          {%- elif (lights_on | length > 1) and (switches_on | length > 1) -%}
-            <b>{{ lights_on | length }} lights, {{ switches_name | regex_replace(',([^,]*)$',' and\\1') }} are on</b>
-
-          {%- elif (lights_on | length == 1) and (switches_on | length == 0) -%}
-            {{'💡'}} <b>{{ lights_name }} is on</b>
-
-          {%- elif (lights_on | length > 1) and (switches_on | length == 0) -%}
-            {{'💡'}} <b>{{ lights_on | length }} lights are on</b>
-
-          {%- else %}
+          {%- set lights_on = states.light | selectattr('state', 'eq', 'on') | list | length -%}
+          {%- if lights_on > 0 -%}
+            {{'💡'}} <b>{{ lights_on }} lights are on</b>
+          {%- else -%}
             <b><font color='#6a7377'>Everything is off</font></b>
           {%- endif -%}
         power: |

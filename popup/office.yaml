@@ -186,6 +186,6 @@ browser_mod:
                 entity: camera.of_camera_2
                 name: OF - Câmera
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam
 

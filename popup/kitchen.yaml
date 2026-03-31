@@ -105,14 +105,14 @@ browser_mod:
                 entity: camera.cz_camera_2
                 name: CZ - Câmera
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam
 
               - type: custom:button-card
                 entity: camera.as_camera_2
                 name: AS - Câmera
                 template:
-                  - camera
+                  - base
                   - icon_unifi_cam
 
 
