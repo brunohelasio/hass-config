@@ -856,20 +856,20 @@ views:
             variables:
               light_entity: light.lights_upstairs
 
-          - type: custom:button-card
-            entity: cover.garage_door
-            name: Garage
-            template:
-              - base
-              - loader
-              - icon_garage
-            tap_action:
-              !include popup/garage.yaml
-            double_tap_action:
-              action: call-service
-              service: cover.toggle
-              service_data:
-                entity_id: cover.garage_door
+          #- type: custom:button-card
+          #  entity: cover.garage_door
+          #  name: Garage
+          #  template:
+          #    - base
+          #    - loader
+          #    - icon_garage
+          #  tap_action:
+          #    !include popup/garage.yaml
+          #  double_tap_action:
+          #    action: call-service
+          #    service: cover.toggle
+          #    service_data:
+          #      entity_id: cover.garage_door
 
           - type: custom:button-card
             entity: light.ecodim_dimmer_ceiling_downstairs
