@@ -92,7 +92,7 @@
       ha-card-background-color: rgba(34,38,39,0.9)
       ha-card-header-background-color: rgba(48,52,52,0.8)
       custom-layout-card-padding: 2.2vw #3.3vw or #3vw...#1.9...sidebar OK
-      custom-button-card-border-radius: 8% #10%
+      custom-button-card-border-radius: 14px #iOS-like softer corners
       sidebar-time-font-size: 6.2vw #5.2
       sidebar-time-line-height: 4.3vw
       sidebar-font-size: min(max(16px, 1.1vw), 1.5vw)
@@ -105,7 +105,7 @@
       z-axis-adjustment: 0.05vw #tilt compensation
       button-card-font-weight: 500
       button-card-letter-spacing: normal
-      button-card-border-radius: 10%
+      button-card-border-radius: 14px
 
       # MUSHROOM
       mush-title-padding: 24px 12px 6px
