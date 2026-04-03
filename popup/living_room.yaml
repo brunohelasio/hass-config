@@ -1,240 +1,533 @@
+# ══════════════════════════════════════════════════════════════════════════
+# VERSÃO ANTERIOR (formato sagaland93) — mantida como backup/rollback
+# ══════════════════════════════════════════════════════════════════════════
+# action: fire-dom-event
+# browser_mod:
+#   service: browser_mod.popup
+#   data:
+#     title: Living-room
+#     style: >
+#       --popup-background-color: transparent;
+#     content:
+#       type: custom:mod-card
+#       ...
+#       card:
+#         type: custom:layout-card
+#         layout_type: custom:grid-layout
+#         layout:
+#           grid-template-columns: 21vw
+#           grid-template-areas: |
+#             "living living living"
+#         cards:
+#           - type: grid
+#             view_layout:
+#               grid-area: living
+#             cards:
+#               - type: custom:button-card
+#                 entity: light.sala_switch_2
+#                 name: SL - Luz principal
+#                 template: [light, icon_light_recessed]
+#               - type: custom:button-card
+#                 entity: media_player.smart_tv_pro_2
+#                 name: Smart TV Pro
+#                 template: [media, icon_tv]
+#               - type: custom:button-card
+#                 entity: media_player.echo_show
+#                 name: Echo Show
+#                 template: [base, icon_apple_tv]
+#               - type: custom:button-card
+#                 entity: light.sala_switch_1
+#                 name: SL - Led direito
+#                 template: [light, icon_light_recessed]
+#               - type: custom:button-card
+#                 entity: light.sala_switch_3
+#                 name: SL - Led esquerdo
+#                 template: [light, icon_light_recessed]
+#               - type: custom:button-card
+#                 entity: light.sala_2_switch_2
+#                 name: VR - Luz principal
+#                 template: [light, icon_light_recessed]
+#               - type: custom:button-card
+#                 entity: light.sala_2_switch_3
+#                 name: VR - Cristaleira
+#                 template: [light, icon_light_flush]
+#               - type: custom:button-card
+#                 entity: light.varanda_switch_1
+#                 name: VR - Área gourmet
+#                 template: [light, icon_light_recessed]
+#               - type: custom:button-card
+#                 entity: light.varanda_switch_2
+#                 name: VR - Pendente
+#                 template: [light, icon_ikea_pendant]
+#               - type: custom:button-card
+#                 entity: lock.sl_fechadura_operate_lock
+#                 name: Fechadura
+#                 template: [base, icon_lock]
+#               - type: custom:button-card
+#                 entity: camera.sl_camera_2
+#                 name: SL - Câmera
+#                 template: [camera, icon_unifi_cam]
+#               - type: custom:button-card
+#                 entity: camera.vr_camera_2
+#                 name: VR - Câmera
+#                 template: [camera, icon_unifi_cam]
+# ══════════════════════════════════════════════════════════════════════════
+
+# NOVA VERSÃO — Migrada do hass-config_negocjohn: 2 colunas (botoes + cameras)
+# Formato: browser_mod.popup + layout-card (grid), sem mod-card wrapper
 action: fire-dom-event
 browser_mod:
   service: browser_mod.popup
   data:
-    title: Living-room
+    title: Sala
+    tag: sala_popup
+    size: wide
     style: >
-      --popup-background-color: transparent;
+      --popup-width: 65vw;
+      --popup-max-width: 980px;
+      --popup-background-color: rgba(15, 20, 35, 0.75);
+      --mdc-theme-surface: rgba(20, 24, 33, 0.88);
+      --mdc-dialog-scrim-color: rgba(0, 0, 0, 0.56);
+      --dialog-box-shadow: 0 0 24px rgba(62, 132, 255, 0.22), 0 0 70px rgba(62, 132, 255, 0.14);
+      --tablet-popup-content-padding: 0.4em 0.6em 0.6em 0.5em;
     content:
-      type: custom:mod-card
-      card_mod:
-        style:
-          layout-card:
-            $grid-layout:
-              $:
-                .: |
-                  #root {
-                    margin: 15px !important;
+      type: custom:layout-card
+      layout_type: custom:grid-layout
+      layout:
+        grid-template-columns: 1.4fr 1.0fr
+        grid-template-areas: '"col_buttons col_camera"'
+        grid-gap: 10px
+        margin: 0
+        padding: 0.5rem
+        mediaquery:
+          "(max-width: 800px)":
+            grid-template-columns: 1fr
+            grid-template-areas: |
+              "col_buttons"
+              "col_camera"
+            padding: 0
+      cards:
+
+        # ── Coluna 1: Botões (luzes + mídia + clima) ──
+        - type: vertical-stack
+          view_layout:
+            grid-area: col_buttons
+          cards:
+
+            - type: custom:button-card
+              entity: light.grupo_luzes_sala
+              triggers_update:
+                - light.grupo_luzes_sala
+              name: Luzes
+              show_state: false
+              show_icon: false
+              tap_action:
+                action: toggle
+                haptic: success
+              custom_fields:
+                on_off: |
+                  <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:8px;margin-right:4px">OFF</span>
+              state:
+                - value: 'on'
+                  custom_fields:
+                    on_off: |
+                      <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:#fff;background:#3b82f6;padding:1px 6px;border-radius:8px;margin-right:4px">ON</span>
+                  styles:
+                    icon:
+                      - color: '#f0c040'
+                - value: 'off'
+                  custom_fields:
+                    on_off: |
+                      <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:8px;margin-right:4px">OFF</span>
+                  styles:
+                    icon:
+                      - color: 'rgba(255,255,255,0.25)'
+              styles:
+                card:
+                  - background: none
+                  - box-shadow: none
+                  - border: none
+                  - padding: 0 4px
+                  - height: 30px
+                  - min-height: 30px
+                grid:
+                  - grid-template-areas: '"n on_off i"'
+                  - grid-template-columns: 1fr auto auto
+                name:
+                  - font-size: 11px
+                  - color: rgba(255,255,255,0.5)
+                  - text-transform: uppercase
+                  - letter-spacing: 1.5px
+                  - justify-self: start
+                  - font-weight: 500
+                custom_fields:
+                  on_off:
+                    - justify-self: end
+                    - align-self: center
+                img_cell:
+                  - justify-self: end
+                  - width: 24px
+                icon:
+                  - width: 24px
+                  - color: 'rgba(255,255,255,0.25)'
+              card_mod:
+                style: |
+                  ha-card::before {
+                    content: none !important;
                   }
 
-      card:
-        type: custom:layout-card
-        layout_type: custom:grid-layout
-        layout:
-          grid-template-columns: 21vw
-          #grid-template-rows: 20vw 20vw
-          grid-template-areas: |
-            "living living living"
-          mediaquery:
-            #phone
-            "(max-width: 800px)":
-              grid-template-columns: 20px 80vw 10px
-              #grid-template-rows: 1fr
-              grid-template-areas: |
-                ". living ."
-            #tablet
-            "(max-width: 2000px)":
-              grid-template-columns: 21vw
-              #grid-template-rows: 1fr
-              grid-template-areas: |
-                "living living living"
+            # Linha 1: 5 botões de iluminação Sala
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  entity: light.sala_switch_2
+                  name: "SL - Luz principal"
+                  template:
+                    - tpl_popup_light
+                    - circle
+                    - icon_light_flush
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                  variables:
+                    circle_input: >
+                      [[[
+                        if (entity && entity.state === 'on') {
+                          const brightness = entity.attributes.brightness;
+                          return brightness != null ? Math.round(brightness / 2.54) : 100;
+                        }
+                        return ' ';
+                      ]]]
+                    circle_input_unit: '%'
+                - type: custom:button-card
+                  entity: light.sala_switch_1
+                  name: "SL - Led direito"
+                  template:
+                    - tpl_popup_light
+                    - icon_ledstrip
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                - type: custom:button-card
+                  entity: light.sala_switch_3
+                  name: "SL - Led esquerdo"
+                  template:
+                    - tpl_popup_light
+                    - icon_ledstrip
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                - type: custom:button-card
+                  entity: light.sala_2_switch_2
+                  name: "VR - Luz principal"
+                  template:
+                    - tpl_popup_light
+                    - icon_light_flush
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                - type: custom:button-card
+                  entity: light.sala_2_switch_3
+                  name: "VR - Cristaleira"
+                  template:
+                    - tpl_popup_light
+                    - icon_ledstrip
+                  tap_action:
+                    action: toggle
+                    haptic: success
 
-        cards:
+            # Linha 2: 2 botões de iluminação varanda + 3 blanks
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  entity: light.varanda_switch_1
+                  name: "VR - Área gourmet"
+                  template:
+                    - tpl_popup_light
+                    - icon_ledstrip
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                - type: custom:button-card
+                  entity: light.varanda_switch_2
+                  name: "VR - Pendente"
+                  template:
+                    - tpl_popup_light
+                    - icon_pendant
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
 
-          #################################################
-          #                                               #
-          #                    LIVING                     #
-          #                                               #
-          #################################################
+            - type: custom:button-card
+              color_type: blank-card
+              styles:
+                card:
+                  - height: 2px
+                  - margin: 4px 8px
+                  - background: >-
+                      linear-gradient(90deg,
+                      rgba(255,255,255,0) 0%,
+                      rgba(255,255,255,0.12) 15%,
+                      rgba(255,255,255,0.20) 50%,
+                      rgba(255,255,255,0.12) 85%,
+                      rgba(255,255,255,0) 100%)
+                  - backdrop-filter: blur(8px)
+                  - -webkit-backdrop-filter: blur(8px)
+                  - border: none
+                  - box-shadow: 0 0 6px rgba(62, 132, 255, 0.10)
+                  - border-radius: 2px
+                  - padding: 0
+                  - min-height: auto
+              card_mod:
+                style: |
+                  ha-card::before {
+                    content: none !important;
+                  }
 
-          - type: grid
-            view_layout:
-              grid-area: living
-            cards:
+            - type: custom:button-card
+              name: "Mídia & Clima"
+              show_state: false
+              show_icon: false
+              tap_action:
+                action: none
+              styles:
+                card:
+                  - background: none
+                  - box-shadow: none
+                  - border: none
+                  - padding: 0 4px
+                  - height: 30px
+                  - min-height: 30px
+                grid:
+                  - grid-template-areas: '"n"'
+                  - grid-template-columns: 1fr
+                name:
+                  - font-size: 11px
+                  - color: rgba(255,255,255,0.5)
+                  - text-transform: uppercase
+                  - letter-spacing: 1.5px
+                  - justify-self: start
+                  - font-weight: 500
+              card_mod:
+                style: |
+                  ha-card::before {
+                    content: none !important;
+                  }
 
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: light.ecodim_dimmer_living_room_downlights
-              #   name: Spots
-              #   template:
-              #     - light
-              #     - icon_light_recessed
+            # Linha 3: mídia (Smart TV + Spotify + Echo Show + Fechadura + blank)
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  entity: media_player.smart_tv_pro_2
+                  name: Smart TV
+                  template:
+                    - mediaplayer
+                  tap_action:
+                    action: toggle
+                    haptic: success
+                  double_tap_action:
+                    action: more-info
+                  hold_action:
+                    action: more-info
+                - type: custom:button-card
+                  entity: media_player.spotifyplus_bruno_helasio
+                  name: Spotify
+                  template:
+                    - base
+                    - circle
+                    - loader
+                    - icon_spotify_color
+                  state_display: >
+                    [[[
+                      return entity && entity.state === 'off' ? ' ' : null;
+                    ]]]
+                  variables:
+                    state_on: >
+                      [[[ return entity && ['on', 'idle', 'playing', 'paused', 'standby'].indexOf(entity.state) !== -1; ]]]
+                    circle_input: >
+                      [[[
+                        if (entity && entity.attributes.volume_level !== undefined) {
+                          let volume = Math.round(entity.attributes.volume_level * 100)
+                          return volume === 0 && entity.state !== 'off' ? 1 : volume
+                        }
+                      ]]]
+                    circle_input_unit: '%'
+                  tap_action:
+                    action: perform-action
+                    perform_action: spotifyplus.player_transfer_playback
+                    data:
+                      entity_id: media_player.spotifyplus_bruno_helasio
+                      device_name: "Echo Show"
+                      play: true
+                      force_activate_device: true
+                    haptic: success
+                  double_tap_action:
+                    action: more-info
+                  hold_action:
+                    action: more-info
+                - type: custom:button-card
+                  entity: media_player.echo_show
+                  name: Echo Show
+                  template:
+                    - base
+                    - icon_apple_tv
+                  tap_action:
+                    action: more-info
+                  double_tap_action:
+                    action: more-info
+                - type: custom:button-card
+                  entity: lock.sl_fechadura_operate_lock
+                  name: Fechadura
+                  template:
+                    - base
+                    - icon_lock
+                  tap_action:
+                    action: more-info
+                  double_tap_action:
+                    action: more-info
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
 
-              # [BRUNO] Entidade adaptada para ambiente real
-              - type: custom:button-card
-                entity: light.sala_switch_2
-                name: SL - Luz principal
-                template:
-                  - light
-                  - icon_light_recessed
+            # Linha 4: Cortina + AC + blanks
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  name: Cortina
+                  template:
+                    - base
+                  show_icon: false
+                  tap_action:
+                    action: none
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  styles:
+                    card:
+                      - opacity: "0.35"
+                      - cursor: "default"
+                - type: custom:button-card
+                  entity: climate.sl_ar_condicionado
+                  name: Ar Cond.
+                  template:
+                    - tpl_popup_climate
+                    - icon_climate
+                  show_icon: false
+                  tap_action:
+                    action: perform-action
+                    perform_action: climate.toggle
+                    target:
+                      entity_id: climate.sl_ar_condicionado
+                    haptic: success
+                  double_tap_action:
+                    action: more-info
+                  hold_action:
+                    action: more-info
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
 
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: media_player.lg_tv_77
-              #   name: LG TV
-              #   template:
-              #     - media
-              #     - icon_tv
-              #   triggers_update:
-              #     - input_boolean.lg_tv_77_screen_state
-              #   tap_action:
-              #     action: call-service
-              #     service: script.living_room_tv_screen_toggle
-              #   variables:
-              #     tv_screen: input_boolean.lg_tv_77_screen_state
-
-              # [BRUNO] Entidade adaptada para ambiente real
-              - type: custom:button-card
-                entity: media_player.smart_tv_pro_2
-                name: Smart TV Pro
-                template:
-                  - media
-                  - icon_tv
-                # triggers_update:
-                #   - input_boolean.lg_tv_77_screen_state
-                # tap_action:
-                #   action: call-service
-                #   service: script.living_room_tv_screen_toggle
-                # variables:
-                #   tv_screen: input_boolean.lg_tv_77_screen_state
-
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: media_player.denon_receiver
-              #   name: Receiver
-              #   template:
-              #     - media
-              #     - media_volume
-              #     - icon_receiver
-              #   variables:
-              #     player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-              #     volume_control: media_player.denon_receiver
-
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: sensor.shield_real_state
-              #   name: SHIELD
-              #   template:
-              #     - media
-              #     - media_volume
-              #     - icon_nvidia_shield
-              #   variables:
-              #     player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-              #     volume_control: media_player.denon_receiver
-
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: media_player.apple_tv_1
-              #   name: ATV 1
-              #   template:
-              #     - media
-              #     - media_volume
-              #     - icon_apple_tv
-              #     - atv
-              #   variables:
-              #     player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-              #     volume_control: media_player.denon_receiver
-
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: media_player.sonos_port_living_room
-              #   name: SONOS
-              #   template:
-              #     - sonos
-              #     - icon_sonos
-
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: switch.subwoofers
-              #   name: Subs
-              #   tap_action:
-              #     action: call-service
-              #     service: switch.toggle
-              #     service_data:
-              #       entity_id: switch.subwoofers
-              #   template:
-              #     - base
-              #     - icon_sub
-
-              # [ORIGINAL SAGALAND93] Entidade não existente no ambiente atual – mantido comentado
-              # - type: custom:button-card
-              #   entity: light.aqara_plug_living_room_disco_party
-              #   name: Disco
-              #   template:
-              #     - base
-              #     - icon_disco
-
-              # [BRUNO] Entidade adaptada para ambiente real
-              - type: custom:button-card
-                entity: media_player.echo_show
-                name: Echo Show
-                template:
-                  - base
-                  - icon_apple_tv
-                # variables:
-                #   player: '[[[ return states["sensor.active_media_players"].attributes.active; ]]]'
-
-              # [BRUNO] Entidades adicionais da Sala
-              - type: custom:button-card
-                entity: light.sala_switch_1
-                name: SL - Led direito
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.sala_switch_3
-                name: SL - Led esquerdo
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.sala_2_switch_2
-                name: VR - Luz principal
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.sala_2_switch_3
-                name: VR - Cristaleira
-                template:
-                  - light
-                  - icon_light_flush
-
-              - type: custom:button-card
-                entity: light.varanda_switch_1
-                name: VR - Área gourmet
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.varanda_switch_2
-                name: VR - Pendente
-                template:
-                  - light
-                  - icon_ikea_pendant
-
-              - type: custom:button-card
-                entity: lock.sl_fechadura_operate_lock
-                name: Fechadura
-                template:
-                  - base
-                  - icon_lock
-
-              - type: custom:button-card
-                entity: camera.sl_camera_2
-                name: SL - Câmera
-                template:
-                  - camera
-                  - icon_unifi_cam
-
-              - type: custom:button-card
-                entity: camera.vr_camera_2
-                name: VR - Câmera
-                template:
-                  - camera
-                  - icon_unifi_cam
-
+        # ── Coluna 2: Câmeras ──
+        - type: custom:layout-card
+          layout_type: custom:grid-layout
+          view_layout:
+            grid-area: col_camera
+          layout:
+            grid-template-columns: 1fr
+            margin: 0
+          cards:
+            - type: custom:button-card
+              entity: camera.sl_camera_2
+              name: SL - Câmera
+              template:
+                - camera
+                - icon_unifi_cam
+            - type: custom:button-card
+              entity: camera.vr_camera_2
+              name: VR - Câmera
+              template:
+                - camera
+                - icon_unifi_cam

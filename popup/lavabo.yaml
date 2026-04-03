@@ -1,76 +1,141 @@
+# ══════════════════════════════════════════════════════════════════════════
+# VERSÃO ANTERIOR (formato sagaland93/mod-card) — mantida como backup/rollback
+# ══════════════════════════════════════════════════════════════════════════
+# action: fire-dom-event
+# browser_mod:
+#   service: browser_mod.popup
+#   data:
+#     title: Lavabo
+#     style: >
+#       --popup-background-color: transparent;
+#     content:
+#       type: custom:mod-card
+#       ...
+#         cards:
+#           - type: grid
+#             view_layout:
+#               grid-area: lavabo
+#             cards:
+#               - entity: light.lavabo_switch_1 (LV - Luz parede)
+#               - entity: light.lavabo_switch_2 (LV - Luz principal)
+#               - entity: light.lavabo_switch_3 (LV - Luz espelho)
+# ══════════════════════════════════════════════════════════════════════════
+
+# NOVA VERSÃO — Estilo glassmorphic, layout compacto (sem câmera)
 action: fire-dom-event
 browser_mod:
   service: browser_mod.popup
   data:
     title: Lavabo
+    tag: lavabo_popup
     style: >
-      --popup-background-color: transparent;
+      --popup-background-color: rgba(15, 20, 35, 0.75);
+      --mdc-theme-surface: rgba(20, 24, 33, 0.88);
+      --mdc-dialog-scrim-color: rgba(0, 0, 0, 0.56);
+      --dialog-box-shadow: 0 0 24px rgba(62, 132, 255, 0.22), 0 0 70px rgba(62, 132, 255, 0.14);
+      --tablet-popup-content-padding: 0.4em 0.6em 0.6em 0.5em;
     content:
-      type: custom:mod-card
-      card_mod:
-        style:
-          layout-card:
-            $grid-layout:
-              $:
-                .: |
-                  #root {
-                    margin: 15px !important;
-                  }
+      type: vertical-stack
+      cards:
 
-      card:
-        type: custom:layout-card
-        layout_type: custom:grid-layout
-        layout:
-          grid-template-columns: 21vw
-          #grid-template-rows: 20vw 20vw
-          grid-template-areas: |
-            "lavabo lavabo lavabo"
-          mediaquery:
-            #phone
-            "(max-width: 800px)":
-              grid-template-columns: 20px 80vw 10px
-              #grid-template-rows: 1fr
-              grid-template-areas: |
-                ". lavabo ."
-            #tablet
-            "(max-width: 2000px)":
-              grid-template-columns: 21vw
-              #grid-template-rows: 1fr
-              grid-template-areas: |
-                "lavabo lavabo lavabo"
+        # Seção Luzes
+        - type: custom:button-card
+          entity: light.grupo_luzes_lavabo
+          triggers_update:
+            - light.grupo_luzes_lavabo
+          name: Luzes
+          show_state: false
+          show_icon: false
+          tap_action:
+            action: toggle
+            haptic: success
+          custom_fields:
+            on_off: |
+              <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:8px;margin-right:4px">OFF</span>
+          state:
+            - value: 'on'
+              custom_fields:
+                on_off: |
+                  <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:#fff;background:#3b82f6;padding:1px 6px;border-radius:8px;margin-right:4px">ON</span>
+              styles:
+                icon:
+                  - color: '#f0c040'
+            - value: 'off'
+              custom_fields:
+                on_off: |
+                  <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:8px;margin-right:4px">OFF</span>
+              styles:
+                icon:
+                  - color: 'rgba(255,255,255,0.25)'
+          styles:
+            card:
+              - background: none
+              - box-shadow: none
+              - border: none
+              - padding: 0 4px
+              - height: 30px
+              - min-height: 30px
+            grid:
+              - grid-template-areas: '"n on_off i"'
+              - grid-template-columns: 1fr auto auto
+            name:
+              - font-size: 11px
+              - color: rgba(255,255,255,0.5)
+              - text-transform: uppercase
+              - letter-spacing: 1.5px
+              - justify-self: start
+              - font-weight: 500
+            custom_fields:
+              on_off:
+                - justify-self: end
+                - align-self: center
+            img_cell:
+              - justify-self: end
+              - width: 24px
+            icon:
+              - width: 24px
+              - color: 'rgba(255,255,255,0.25)'
+          card_mod:
+            style: |
+              ha-card::before {
+                content: none !important;
+              }
 
-        cards:
-
-          #################################################
-          #                                               #
-          #                    LAVABO                     #
-          #                                               #
-          #################################################
-
-          - type: grid
-            #title: Lavabo
-            view_layout:
-              grid-area: lavabo
-            cards:
-
-              # [BRUNO] Entidades do Lavabo
-              - type: custom:button-card
-                entity: light.lavabo_switch_1
-                name: LV - Luz parede
-                template:
-                  - light
-                  - icon_light_flush
-
-              - type: custom:button-card
-                entity: light.lavabo_switch_2
-                name: LV - Luz principal
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.lavabo_switch_3
-                name: LV - Luz espelho
-                template:
-                  - light
-                  - icon_light_flush
+        # 3 luzes do lavabo
+        - type: grid
+          columns: 3
+          square: false
+          card_mod:
+            style: |
+              #root {
+                gap: 4px !important;
+                grid-template-columns: repeat(3, 98px) !important;
+              }
+          cards:
+            - type: custom:button-card
+              entity: light.lavabo_switch_2
+              name: LV - Luz principal
+              template:
+                - tpl_popup_light
+                - icon_light_recessed
+              tap_action:
+                action: toggle
+                haptic: success
+            - type: custom:button-card
+              entity: light.lavabo_switch_1
+              name: LV - Luz parede
+              template:
+                - tpl_popup_light
+                - icon_light_flush
+              tap_action:
+                action: toggle
+                haptic: success
+            - type: custom:button-card
+              entity: light.lavabo_switch_3
+              name: LV - Luz espelho
+              template:
+                - tpl_popup_light
+                - icon_light_flush
+              tap_action:
+                action: toggle
+                haptic: success
