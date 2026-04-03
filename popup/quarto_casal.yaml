@@ -1,181 +1,341 @@
+# ══════════════════════════════════════════════════════════════════════════
+# VERSÃO ANTERIOR (formato sagaland93/mod-card) — mantida como backup/rollback
+# (entidades anteriores comentadas nos cards acima)
+# ══════════════════════════════════════════════════════════════════════════
+
+# NOVA VERSÃO — Migrada do hass-config_negocjohn: 2 colunas (botoes + camera)
 action: fire-dom-event
 browser_mod:
   service: browser_mod.popup
   data:
     title: Quarto Casal
+    tag: quarto_casal_popup
+    size: wide
     style: >
-      --popup-background-color: transparent;
+      --popup-width: 65vw;
+      --popup-max-width: 980px;
+      --popup-background-color: rgba(15, 20, 35, 0.75);
+      --mdc-theme-surface: rgba(20, 24, 33, 0.88);
+      --mdc-dialog-scrim-color: rgba(0, 0, 0, 0.56);
+      --dialog-box-shadow: 0 0 24px rgba(62, 132, 255, 0.22), 0 0 70px rgba(62, 132, 255, 0.14);
+      --tablet-popup-content-padding: 0.4em 0.6em 0.6em 0.5em;
     content:
-      type: custom:mod-card
-      card_mod:
-        style:
-          layout-card:
-            $grid-layout:
-              $:
-                .: |
-                  #root {
-                    margin: 15px !important;
+      type: custom:layout-card
+      layout_type: custom:grid-layout
+      layout:
+        grid-template-columns: 1.4fr 1.0fr
+        grid-template-areas: '"col_buttons col_camera"'
+        grid-gap: 10px
+        margin: 0
+        padding: 0.5rem
+        mediaquery:
+          "(max-width: 800px)":
+            grid-template-columns: 1fr
+            grid-template-areas: |
+              "col_buttons"
+              "col_camera"
+            padding: 0
+      cards:
+
+        # ── Coluna 1: Botões ──
+        - type: vertical-stack
+          view_layout:
+            grid-area: col_buttons
+          cards:
+            # Seção Luzes (toggle all + seção)
+            - type: custom:button-card
+              entity: light.grupo_quarto_casal
+              triggers_update:
+                - light.grupo_quarto_casal
+              name: Luzes
+              show_state: false
+              show_icon: false
+              tap_action:
+                action: toggle
+                haptic: success
+              custom_fields:
+                on_off: |
+                  <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:8px;margin-right:4px">OFF</span>
+              state:
+                - value: 'on'
+                  custom_fields:
+                    on_off: |
+                      <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:#fff;background:#3b82f6;padding:1px 6px;border-radius:8px;margin-right:4px">ON</span>
+                  styles:
+                    icon:
+                      - color: '#f0c040'
+                - value: 'off'
+                  custom_fields:
+                    on_off: |
+                      <span style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:8px;margin-right:4px">OFF</span>
+                  styles:
+                    icon:
+                      - color: 'rgba(255,255,255,0.25)'
+              styles:
+                card:
+                  - background: none
+                  - box-shadow: none
+                  - border: none
+                  - padding: 0 4px
+                  - height: 30px
+                  - min-height: 30px
+                grid:
+                  - grid-template-areas: '"n on_off i"'
+                  - grid-template-columns: 1fr auto auto
+                name:
+                  - font-size: 11px
+                  - color: rgba(255,255,255,0.5)
+                  - text-transform: uppercase
+                  - letter-spacing: 1.5px
+                  - justify-self: start
+                  - font-weight: 500
+                custom_fields:
+                  on_off:
+                    - justify-self: end
+                    - align-self: center
+                img_cell:
+                  - justify-self: end
+                  - width: 24px
+                icon:
+                  - width: 24px
+                  - color: 'rgba(255,255,255,0.25)'
+              card_mod:
+                style: |
+                  ha-card::before {
+                    content: none !important;
                   }
 
-      card:
-        type: custom:layout-card
-        layout_type: custom:grid-layout
-        layout:
-          grid-template-columns: 21vw
-          #grid-template-rows: 20vw 20vw
-          grid-template-areas: |
-            "quarto_casal quarto_casal quarto_casal"
-          mediaquery:
-            #phone
-            "(max-width: 800px)":
-              grid-template-columns: 20px 80vw 10px
-              #grid-template-rows: 1fr
-              grid-template-areas: |
-                ". quarto_casal ."
-            #tablet
-            "(max-width: 2000px)":
-              grid-template-columns: 21vw
-              #grid-template-rows: 1fr
-              grid-template-areas: |
-                "quarto_casal quarto_casal quarto_casal"
+            # Linha 1: 5 luzes Quarto Casal
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  entity: light.qc_luz_principal
+                  name: "QC - Luz principal"
+                  template: [tpl_popup_light, icon_ledstrip]
+                  tap_action: {action: toggle, haptic: success}
+                - type: custom:button-card
+                  entity: light.quarto_casal_switch_1
+                  name: "QC - Luzes quadros"
+                  template: [tpl_popup_light, icon_light_flush]
+                  tap_action: {action: toggle, haptic: success}
+                - type: custom:button-card
+                  entity: light.quarto_casal_2_switch_2
+                  name: "QC - Luz sanca"
+                  template: [tpl_popup_light, icon_ledstrip]
+                  tap_action: {action: toggle, haptic: success}
+                - type: custom:button-card
+                  entity: light.quarto_casal_switch_2
+                  name: "QC - Luzes closet"
+                  template: [tpl_popup_light, icon_light_flush]
+                  tap_action: {action: toggle, haptic: success}
+                - type: custom:button-card
+                  entity: light.quarto_casal_2_switch_3
+                  name: "QC - Luz cortineiro"
+                  template: [tpl_popup_light, icon_ledstrip]
+                  tap_action: {action: toggle, haptic: success}
 
-        cards:
+            # Linha 2: 2 luzes suite + 3 blanks
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  entity: light.suite_casal_switch_1
+                  name: "QCS - Luz principal"
+                  template: [tpl_popup_light, icon_ledstrip]
+                  tap_action: {action: toggle, haptic: success}
+                - type: custom:button-card
+                  entity: light.suite_casal_switch_2
+                  name: "QCS - Luz azul"
+                  template: [tpl_popup_light, icon_light_flush]
+                  tap_action: {action: toggle, haptic: success}
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
 
-          #################################################
-          #                                               #
-          #                 QUARTO CASAL                  #
-          #                                               #
-          #################################################
+            # Divisor glassmorphism
+            - type: custom:button-card
+              color_type: blank-card
+              styles:
+                card:
+                  - height: 2px
+                  - margin: 4px 8px
+                  - background: >-
+                      linear-gradient(90deg,
+                      rgba(255,255,255,0) 0%,
+                      rgba(255,255,255,0.12) 15%,
+                      rgba(255,255,255,0.20) 50%,
+                      rgba(255,255,255,0.12) 85%,
+                      rgba(255,255,255,0) 100%)
+                  - backdrop-filter: blur(8px)
+                  - -webkit-backdrop-filter: blur(8px)
+                  - border: none
+                  - box-shadow: none
+                  - border-radius: 2px
+                  - padding: 0
+                  - min-height: auto
+              card_mod:
+                style: |
+                  ha-card::before {
+                    content: none !important;
+                  }
 
-          - type: grid
-            #title: Quarto Casal
-            view_layout:
-              grid-area: quarto_casal
-            cards:
+            # Seção Mídia & Clima
+            - type: custom:button-card
+              name: "Mídia & Clima"
+              show_state: false
+              show_icon: false
+              tap_action:
+                action: none
+              styles:
+                card:
+                  - background: none
+                  - box-shadow: none
+                  - border: none
+                  - padding: 0 4px
+                  - height: 30px
+                  - min-height: 30px
+                grid:
+                  - grid-template-areas: '"n"'
+                  - grid-template-columns: 1fr
+                name:
+                  - font-size: 11px
+                  - color: rgba(255,255,255,0.5)
+                  - text-transform: uppercase
+                  - letter-spacing: 1.5px
+                  - justify-self: start
+                  - font-weight: 500
+              card_mod:
+                style: |
+                  ha-card::before {
+                    content: none !important;
+                  }
 
-              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
-              # - type: custom:button-card
-              #   entity: light.ecodim_dimmer_bedroom_ceiling
-              #   name: Devote L
-              #   template:
-              #     - light
-              #     - icon_hue_devote
+            # Linha 3: Echo Pop + Spotify + AC placeholder + 2 blanks
+            - type: grid
+              columns: 5
+              square: false
+              card_mod:
+                style: |
+                  #root {
+                    gap: 4px !important;
+                    grid-template-columns: repeat(5, 98px) !important;
+                  }
+              cards:
+                - type: custom:button-card
+                  entity: media_player.echo_pop_quarto_casal
+                  name: Echo Pop
+                  template: [base, icon_sonos]
+                  tap_action: {action: more-info}
+                - type: custom:button-card
+                  entity: media_player.spotifyplus_bruno_helasio
+                  name: Spotify
+                  template:
+                    - base
+                    - circle
+                    - loader
+                    - icon_spotify_color
+                  state_display: >
+                    [[[
+                      return entity && entity.state === 'off' ? ' ' : null;
+                    ]]]
+                  variables:
+                    state_on: >
+                      [[[ return entity && ['on', 'idle', 'playing', 'paused', 'standby'].indexOf(entity.state) !== -1; ]]]
+                    circle_input: >
+                      [[[
+                        if (entity && entity.attributes.volume_level !== undefined) {
+                          let volume = Math.round(entity.attributes.volume_level * 100)
+                          return volume === 0 && entity.state !== 'off' ? 1 : volume
+                        }
+                      ]]]
+                    circle_input_unit: '%'
+                  tap_action:
+                    action: perform-action
+                    perform_action: spotifyplus.player_transfer_playback
+                    data:
+                      entity_id: media_player.spotifyplus_bruno_helasio
+                      device_name: "Echo Pop Quarto Casal"
+                      play: true
+                      force_activate_device: true
+                    haptic: success
+                  double_tap_action:
+                    action: more-info
+                  hold_action:
+                    action: more-info
+                - type: custom:button-card
+                  name: Ar Cond.
+                  template: [base, icon_climate]
+                  show_icon: false
+                  tap_action: {action: none}
+                  styles:
+                    card:
+                      - opacity: "0.35"
+                      - cursor: "default"
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
+                - type: custom:button-card
+                  color_type: blank-card
+                  styles:
+                    card:
+                      - background: none
+                      - border: none
+                      - box-shadow: none
+                      - opacity: '0'
 
-              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
-              # - type: custom:button-card
-              #   entity: light.ecodim_dimmer_bedroom_ceiling
-              #   name: Devote R
-              #   template:
-              #     - light
-              #     - icon_hue_devote
-
-              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
-              # - type: custom:button-card
-              #   entity: light.ecodim_dimmer_bedroom_ceiling
-              #   name: Ceiling
-              #   template:
-              #     - light
-              #     - icon_ikea_pendant
-
-              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
-              # - type: custom:button-card
-              #   entity: media_player.lg_tv_55
-              #   name: LG TV
-              #   template:
-              #     - media
-              #     - icon_tv
-              #   triggers_update:
-              #     - input_boolean.lg_tv_55_screen_state
-              #   tap_action:
-              #     action: call-service
-              #     service: script.bedroom_tv_screen_toggle
-              #   variables:
-              #     tv_screen: input_boolean.lg_tv_55_screen_state
-
-              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
-              # - type: custom:button-card
-              #   entity: media_player.apple_tv_2
-              #   name: ATV 2
-              #   template:
-              #     - media
-              #     - media_volume
-              #     - atv
-              #     - icon_apple_tv
-              #   variables:
-              #     player: media_player.sonos_arc_bedroom
-
-              # [ORIGINAL SAGALAND93 - bedroom.yaml] Mantido como referência
-              # - type: custom:button-card
-              #   entity: media_player.sonos_arc_bedroom
-              #   name: Arc
-              #   template:
-              #     - media
-              #     - media_volume
-              #     - sonos
-              #     - icon_sonos
-              #   variables:
-              #     volume_control: media_player.sonos_arc_bedroom
-
-              # [BRUNO] Entidades do Quarto Casal
-              - type: custom:button-card
-                entity: light.quarto_casal_switch_1
-                name: QC - Luzes quadros
-                template:
-                  - light
-                  - icon_light_flush
-
-              - type: custom:button-card
-                entity: light.quarto_casal_2_switch_2
-                name: QC - Luz sanca
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.quarto_casal_switch_2
-                name: QC - Luzes closet
-                template:
-                  - light
-                  - icon_light_flush
-
-              - type: custom:button-card
-                entity: light.quarto_casal_2_switch_3
-                name: QC - Luz cortineiro
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.qc_luz_principal
-                name: QC - Luz principal
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.suite_casal_switch_1
-                name: QCS - Luz principal
-                template:
-                  - light
-                  - icon_light_recessed
-
-              - type: custom:button-card
-                entity: light.suite_casal_switch_2
-                name: QCS - Luz azul
-                template:
-                  - light
-                  - icon_hue
-
-              - type: custom:button-card
-                entity: media_player.echo_pop_quarto_casal
-                name: Echo Pop
-                template:
-                  - base
-                  - icon_sonos
-
-              - type: custom:button-card
-                entity: camera.camera_quarto_casal_2
-                name: Câmera QC
-                template:
-                  - camera
-                  - icon_unifi_cam
+        # ── Coluna 2: Câmera ──
+        - type: custom:layout-card
+          layout_type: custom:grid-layout
+          view_layout:
+            grid-area: col_camera
+          layout:
+            grid-template-columns: 1fr
+            margin: 0
+          cards:
+            - type: custom:button-card
+              entity: camera.camera_quarto_casal_2
+              name: QC - Câmera
+              template:
+                - camera
+                - icon_unifi_cam
