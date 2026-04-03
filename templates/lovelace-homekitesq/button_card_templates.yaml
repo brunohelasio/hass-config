@@ -787,7 +787,7 @@
           }
         });
         if(!peopleHomeAvatars) {
-          peopleHomeAvatars = `<div style="font-size:11px; color:rgba(255,255,255,0.45);">Ninguem em casa</div>`;
+          peopleHomeAvatars = `<div style="font-size:11px; color:rgba(255,255,255,0.45);">Ninguém em casa</div>`;
         }
         let outputHtml = `
           <div onclick="event.stopPropagation();" onpointerdown="event.stopPropagation();" ontouchstart="event.stopPropagation();" style="position:relative; display:flex;flex-direction:column;height:100%;padding:20px 16px 16px;box-sizing:border-box;font-family:'Poppins',system-ui,sans-serif;">
